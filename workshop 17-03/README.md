@@ -12,31 +12,31 @@ O script está dividido em 4 etapas:
 Criando um schema denominado `DESAFIO`.
 ```SQL
 CREATE SCHEMA DESAFIO;
-USE DESAFIO;
+USE DESAFIO
 ```
 
 ## 2. Criação das tabelas
 Criando as tabelas `clientes` e `pedidios` com chaves primarias e chave estrangeira.
 ```SQL
 CREATE TABLE clientes (
-clienteID INT PRIMARY KEY AUTO_ENCREMENT,
+clienteID INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(50) NOT NULL,
 cidade VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE pedidos (
-pedidoID INT PRIMARY KEY AUTO_ENCREMENT,
-clientID INT,
+pedidoID INT PRIMARY KEY AUTO_INCREMENT,
+clienteID INT,
 data DATE NOT NULL,
-valor FLOAT NOT NULL
-FOREIGN KEY (clienteID) REFERENCES clientes(clienteid),
+valor FLOAT (10,2) NOT NULL,
+FOREIGN KEY (clienteID) REFERENCES clientes(clienteID)
 )
 ```
 
 ## 3. Inserir Dados
 Inserindo 10 registros em cada tabela.
 ```SQL
-INSERT TABLE clientes (nome,cidade) 
+INSERT INTO clientes (nome,cidade) 
 VALUES
 ('Ana Silva', 'São Paulo'),
 ('Bruno Oliveira', 'Rio de Janeiro'),
@@ -60,19 +60,20 @@ VALUES
 (6, '2023-10-15', 90.00), 
 (2, '2023-10-20', 200.00), 
 (7, '2023-10-21', 600.00), 
-(8, '2023-10-22', 50.00);
+(8, '2023-10-22', 50.00)
 ```
 ## 4.1 - Executando Consultas
 Execute **1** comando de **DML (UPDATE ou DELETE), 1** de **DQL (SELECT), 3** funções **Agregadas**, **2** de **Agrupamento** e **1 JOIN**.
 ```SQL
-SELECT clientes.nome 
-COUNT(pedidos.pedidoID),
-SUM(pedidos.valor),
-AVG(pedidos.valor)
-FROM  clientes
-INNER JOIN pedidos ON clientes.clienteID = pedido.pedidoID
-GROUP BY cliente.nome
-HAVING SUM (pedido.valor) > 500;
+SELECT 
+    clientes.nome,
+    COUNT(pedidos.pedidoID) AS total_pedidos,
+    SUM(pedidos.valor) AS soma_total,
+    AVG(pedidos.valor) AS media_valor
+FROM clientes
+INNER JOIN pedidos ON clientes.clienteID = pedidos.clienteID
+GROUP BY clientes.nome
+HAVING SUM(pedidos.valor) > 500;
 ```
 
 ## 4.2 - Atualizando Dados
