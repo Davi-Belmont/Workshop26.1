@@ -1,27 +1,27 @@
 -- 1. criando schema
 
 CREATE SCHEMA DESAFIO;
-USE DESAFIO;
+USE DESAFIO
 
 -- 2. Criando Tabelas
 
 CREATE TABLE clientes (
-clienteID INT PRIMARY KEY AUTO_ENCREMENT,
+clienteID INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(50) NOT NULL,
 cidade VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE pedidos (
-pedidoID INT PRIMARY KEY AUTO_ENCREMENT,
-clientID INT,
+pedidoID INT PRIMARY KEY AUTO_INCREMENT,
+clienteID INT,
 data DATE NOT NULL,
-valor FLOAT NOT NULL
-FOREIGN KEY (clienteID) REFERENCES clientes(clienteid),
+valor FLOAT (10,2) NOT NULL,
+FOREIGN KEY (clienteID) REFERENCES clientes(clienteID)
 )
 
 -- 3. Inserindo Dados
 
-INSERT TABLE clientes (nome,cidade) 
+INSERT INTO clientes (nome,cidade) 
 VALUES
 ('Ana Silva', 'São Paulo'),
 ('Bruno Oliveira', 'Rio de Janeiro'),
@@ -45,23 +45,21 @@ VALUES
 (6, '2023-10-15', 90.00), 
 (2, '2023-10-20', 200.00), 
 (7, '2023-10-21', 600.00), 
-(8, '2023-10-22', 50.00);
+(8, '2023-10-22', 50.00)
 
 -- 4.1 Executando Consultas
 
 -- um DQL
-SELECT clientes.nome 
-
+SELECT clientes.nome,
 -- tres funcoes agregadas
-
-COUNT(pedidos.pedidoID),
-SUM(pedidos.valor),
-AVG(pedidos.valor)
+    COUNT(pedidos.pedidoID) AS total_pedidos,
+    SUM(pedidos.valor) AS soma_total,
+    AVG(pedidos.valor) AS media_valor
 FROM  clientes
 
 -- um JOIN
 
-INNER JOIN pedidos ON clientes.clienteID = pedido.pedidoID
+INNER JOIN pedidos ON clientes.clienteID = pedidos.clienteID
 
 -- dois agrupamentos
 GROUP BY cliente.nome
